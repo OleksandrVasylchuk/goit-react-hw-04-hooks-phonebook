@@ -1,36 +1,41 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import { MdPerson } from "react-icons/md";
 import { MdStayPrimaryPortrait } from "react-icons/md";
 import {Forma, Input, Label, Button} from './ContactForm.styled'
 
 
 
-export default class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
+export default function ContactForm({onSubmit}) {
+ const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const handleChangeName = event => {
+    setName(event.currentTarget.value);
   };
 
-  handleChange = event => {
-    this.setState({ [event.currentTarget.name]: event.currentTarget.value });
+  const handleChangeNumber = event => {
+    setNumber(event.currentTarget.value);
   };
 
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    const { name, number } = this.state;
-    this.props.onSubmit(name, number);
-    this.reset();
+
+    onSubmit(name, number);
+    resetName();
+    resetNumber();
   };
 
-  reset = () => {
-    this.setState({ name: '', number: '' });
+  const resetName = () => {
+    setName('');
   };
 
-  render() {
-    const { name, number } = this.state;
+  const resetNumber = () => {
+    setNumber('');
+  };
+
 
     return (
-      <Forma onSubmit={this.handleSubmit}>
+      <Forma onSubmit={handleSubmit}>
         <Label >
           <MdPerson></MdPerson>
           Name
@@ -40,7 +45,7 @@ export default class ContactForm extends Component {
             name="name"
             value={name}
             placeholder="Oleksandr Vasylchuk"
-            onChange={this.handleChange}
+            onChange={handleChangeName}
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             maxLength="33"
           />
@@ -54,7 +59,7 @@ export default class ContactForm extends Component {
             name="number"
             value={number}
             placeholder="000-00-00"
-            onChange={this.handleChange}
+            onChange={handleChangeNumber}
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             maxLength="20"
           />
@@ -64,5 +69,5 @@ export default class ContactForm extends Component {
         </Button>
       </Forma>
     );
-  }
+  
 }
