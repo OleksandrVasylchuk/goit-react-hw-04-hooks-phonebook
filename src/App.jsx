@@ -89,7 +89,7 @@ export default function App() {
         <h2>Contacts</h2>
         <Filter value={filter} onChange={changeFilter} />
         <ContactList
-          contacts={getVisibleContacts}
+          contacts={getVisibleContacts()}
           onDeleteContact={deleteContact}
         />
       </Section>
